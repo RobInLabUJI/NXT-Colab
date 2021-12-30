@@ -1,26 +1,3 @@
-
-def next_notebook(nb):
-    if nb=='moviments':
-        display(HTML('<p>Ja podeu passar a la pàgina següent, on aprendreu a controlar els moviments del robot:</p><h2><a href="https://colab.research.google.com/github/RobInLabUJI/MindstormsColab/blob/main/ca/task/motors.ipynb" target="_blank">&gt;&gt;&gt; Moviments del robot</a></h2>'))
-    elif nb=='quadrat':
-        display(HTML('<p>Ara ja podeu continuar, bona sort!</p><h2><a href="quadrat.ipynb" target="_blank">&gt;&gt;&gt; Exercici de moviment</a></h2>'))
-    elif nb=='sensors':
-        display(HTML('<p>Fins ara heu aprés a controlar el moviment del robot, i també a programar bucles, no està gens malament!</p><p>Per a continuar, anem a vore els altres components del robot, els sensors, que ens permetran fer programes encara més sofisticats.</p><h2><a href="sensors.ipynb" target="_blank">&gt;&gt;&gt; Sensors</a></h2>'))
-    elif nb=='touch':
-        display(HTML('<p>Ara ja podeu passar al primer exercici amb sensors:</p><h2><a href="touch.ipynb" target="_blank">&gt;&gt;&gt; Tacte</a></h2>'))
-    elif nb=='navigation':
-        display(HTML('<p>Ara ja podeu continuar.</p><h2><a href="navigation.ipynb" target="_blank">&gt;&gt;&gt; Exercici de navegació</a></h2>'))
-    elif nb=='sound':
-        display(HTML('<p>Ara ja podeu continuar.</p><h2><a href="sound.ipynb" target="_blank">&gt;&gt;&gt; Sensor de so</a></h2>'))
-    elif nb=='light':
-        display(HTML('<p>Ara ja podeu continuar.</p><h2><a href="light.ipynb" target="_blank">&gt;&gt;&gt; Sensor de llum</a></h2>'))
-    elif nb=='ultrasonic':
-        display(HTML('<p>Ara ja podeu continuar.</p><h2><a href="ultrasonic.ipynb" target="_blank">&gt;&gt;&gt; Sensor ultrasònic</a></h2>'))
-    elif nb=='sumo':
-        display(HTML('<p>Ara ja podeu continuar.</p><h2><a href="sumo.ipynb" target="_blank">&gt;&gt;&gt; El Gran Repte</a></h2>'))
-    else:
-        pass
-
 import nxt.locator
 import nxt.motor
 import nxt.sensor.generic
@@ -35,7 +12,6 @@ def connect(address):
     global mB; global mC
     global s1; global s2; global s3; global s4
     global tempo
-    global connected_robot
     try:
         #address = {2: '00:16:53:0A:9B:72', \
 		#   3: '00:16:53:0A:9D:F2', \
@@ -59,8 +35,7 @@ def connect(address):
         # s3.set_input_mode(0x05,0x80) # Light active, percentage
         s4 = nxt.sensor.generic.Ultrasonic(brick, nxt.sensor.Port.S4)
         tempo = 0.5
-        connected_robot = n
-        print("\x1b[32mRobot %d connectat.\x1b[0m" % n)
+        print("\x1b[32mRobot connectat.\x1b[0m")
     except BluetoothError as e:
         errno, errmsg = eval(e.args[0])
         if errno==16:
@@ -77,7 +52,7 @@ def connect(address):
 def disconnect():
     try:
         brick.close()
-        print("\x1b[32mRobot %d desconnectat.\x1b[0m" % connected_robot)
+        print("\x1b[32mRobot desconnectat.\x1b[0m")
     except NameError:
         print("\x1b[31mNo hi ha connexió amb el robot.\x1b[0m")
 
