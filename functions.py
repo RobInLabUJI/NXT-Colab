@@ -58,27 +58,27 @@ def disconnect():
 
 def stop():
     try:
-        mB.brake()
-        mC.brake()
+        mB.idle()
+        mC.idle()
     except NameError:
         print("\x1b[31mNo hi ha connexió amb el robot.\x1b[0m")
 
-def forward(speed=100,speed_B=100,speed_C=100):
-    move(speed_B=-min(abs(speed),abs(speed_B)),speed_C=-min(abs(speed),abs(speed_C)))
-    
-def backward(speed=100,speed_B=100,speed_C=100):
+def forward(speed=50,speed_B=50,speed_C=50):
     move(speed_B=min(abs(speed),abs(speed_B)),speed_C=min(abs(speed),abs(speed_C)))
     
-def left(speed=100):
-    move(speed_B=0,speed_C=-abs(speed))
+def backward(speed=50,speed_B=50,speed_C=50):
+    move(speed_B=-min(abs(speed),abs(speed_B)),speed_C=-min(abs(speed),abs(speed_C)))
+    
+def right(speed=50):
+    move(speed_B=abs(speed),speed_C=0)
 
-def left_sharp(speed=100):
+def right_sharp(speed=50):
     move(speed_B=abs(speed),speed_C=-abs(speed))
        
-def right(speed=100):
-    move(speed_B=-abs(speed),speed_C=0)
+def left(speed=50):
+    move(speed_B=0,speed_C=abs(speed))
 
-def right_sharp(speed=100):
+def left_sharp(speed=50):
     move(speed_B=-abs(speed),speed_C=abs(speed))
 
 def move(speed_B=0,speed_C=0):
@@ -98,8 +98,8 @@ def move(speed_B=0,speed_C=0):
         speed_C = -100
         print("\x1b[33mLa velocitat màxima és 100.\x1b[0m")
     try:
-        mB.run(-int(speed_B*max_speed/100))
-        mC.run(int(speed_C*max_speed/100))
+        mB.run(int(speed_B*max_speed/100), True)
+        mC.run(int(speed_C*max_speed/100), True)
     except NameError:
         print("\x1b[31mNo hi ha connexió amb el robot.\x1b[0m")
 
