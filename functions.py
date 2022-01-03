@@ -12,6 +12,7 @@ def connect(address):
     global mB; global mC
     global s1; global s2; global s3; global s4
     global tempo
+    global my_address
     try:
         #address = {2: '00:16:53:0A:9B:72', \
 		#   3: '00:16:53:0A:9D:F2', \
@@ -25,6 +26,7 @@ def connect(address):
 		#  11: '00:16:53:17:94:E0', \
 		#  12: '00:16:53:1A:C6:BD'}
         brick = nxt.locator.find(host=address)
+        my_address = address
         mB = nxt.motor.Motor(brick, nxt.motor.Port.B)
         mC = nxt.motor.Motor(brick, nxt.motor.Port.C)
         s1 = nxt.sensor.generic.Touch(brick, nxt.sensor.Port.S1)
@@ -107,10 +109,10 @@ def touch():
     return s1.is_pressed()
     
 def sound():
-    return s2.get_loudness()
+    return int(s2.get_loudness() * 100 / 1023)
 
 def light():
-    return s3.get_lightness()
+    return min(100,int(s3.get_lightness() * 100 / 600))
 
 from nxt.error import ProtocolError
 
@@ -118,11 +120,13 @@ def ultrasonic():
     global s4
     try:
         return s4.get_distance()
+    except KeyboardInterrupt:
+    	return 255
     except ProtocolError:
         disconnect()
         print("\x1b[33mError de connexió, reintentant...\x1b[0m")
         time.sleep(1)
-        connect(connected_robot)
+        connect(my_address)
         return s4.get_distance()
         
 def play_sound(s):
