@@ -7,26 +7,13 @@ import time
 
 from bluetooth.btcommon import BluetoothError
 
-def connect(address):
+def connect():
     global brick
     global mB; global mC
     global s1; global s2; global s3; global s4
     global tempo
-    global my_address
     try:
-        #address = {2: '00:16:53:0A:9B:72', \
-		#   3: '00:16:53:0A:9D:F2', \
-		#   4: '00:16:53:0A:5C:72', 
-		#   5: '00:16:53:08:D5:59', \
-		#   6: '00:16:53:08:DE:51', \
-		#   7: '00:16:53:0A:5A:B4', \
-		#   8: '00:16:53:0A:9B:27', \
-		#   9: '00:16:53:0A:9E:2C', \
-		#  10: '00:16:53:17:92:8A', \
-		#  11: '00:16:53:17:94:E0', \
-		#  12: '00:16:53:1A:C6:BD'}
-        brick = nxt.locator.find(host=address)
-        my_address = address
+        brick = nxt.locator.find(filename='/dev/rfcomm0')
         mB = nxt.motor.Motor(brick, nxt.motor.Port.B)
         mC = nxt.motor.Motor(brick, nxt.motor.Port.C)
         s1 = nxt.sensor.generic.Touch(brick, nxt.sensor.Port.S1)
@@ -126,7 +113,7 @@ def ultrasonic():
         disconnect()
         print("\x1b[33mError de connexió, reintentant...\x1b[0m")
         time.sleep(1)
-        connect(my_address)
+        connect()
         return s4.get_distance()
         
 def play_sound(s):
